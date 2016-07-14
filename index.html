@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8">
+  <title>Pitaj Vakulu</title>
+  <meta name="description" content="Vremenska progonoza za tvoj grad!">
+  <meta name="author" content="Vidoviti Vakula">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <img src="images/head.png" alt="Mozak operacije" class="head">
+        <form>
+          <div class="twelve columns">
+            <button type="submit" @click="getWeather(city, $event)" class="search">Prikaži</button>
+            <div style="overflow: hidden; padding-right:0">
+              <input class="u-full-width" type="text" placeholder="Zagreb" id="city_selector" v-model="city">
+            </div>
+            <h6 style="text-align: center;margin-bottom: -1.4em;font-weight: 600;">Pitaj Vidovitog Vakulu za sutrašnju prognozu!</h6>
+          </div>
+        </form>
+        <div class="twelve columns">
+          <img src="images/hands-still.gif" alt="Wougbauga" class="hands" v-bind:class="{'show':!loading}">
+          <img src="images/hands.gif" alt="wougabugagagagag" class="hands" v-bind:class="{'show':loading}">
+          <div class="weather" v-if="! loading">
+              <span>{{ temperature }}</span>
+              <img :src="icon">
+          </div>
+        </div>
+        <div class="fb-share-button" 
+          data-href="http://vakula-pitaj.ga/" 
+          data-layout="button_count">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="//cdn.jsdelivr.net/vue/1.0.26/vue.min.js"></script>
+  <script src="//cdn.jsdelivr.net/vue.resource/0.9.3/vue-resource.min.js"></script>
+  <script>
+    new Vue({
+      el: 'body',
+      data: {
+        loading: false,
+        city: '',
+        icon: null,
+        temperature: null,
+      },
+      methods: {
+        getWeather: function( city_name, e ) {
+          e.preventDefault();
+          this.$data.loading = true;
+          this.$http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q=' + city_name + ',hr&mode=json&units=metric&cnt=1&APPID=0342eec99dd95c10702afb42cc4e224f')
+          .then(function(response) {
+              
+              var _this = this;
+
+              setTimeout(function(){
+                _this.$data.temperature = Math.ceil(response.data.list[0].temp.day) + '°C';
+                _this.$data.icon = 'http://openweathermap.org/img/w/' + response.data.list[0].weather[0].icon + '.png';
+                _this.$data.loading = false;
+              }, 2000);
+              
+          }, function(response) {
+
+          });
+
+        }
+      }
+    });
+    
+  </script>
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>
