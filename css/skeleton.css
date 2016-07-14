@@ -401,22 +401,6 @@ on small devices, paste the mobile query code up in the buttons section and styl
 there.
 */
 
-
-/* Larger than mobile */
-@media (min-width: 400px) {}
-
-/* Larger than phablet (also point when grid becomes active) */
-@media (min-width: 550px) {}
-
-/* Larger than tablet */
-@media (min-width: 750px) {}
-
-/* Larger than desktop */
-@media (min-width: 1000px) {}
-
-/* Larger than Desktop HD */
-@media (min-width: 1200px) {}
-
 body {
   background: #f0f0f0;
 }
@@ -437,9 +421,7 @@ div {
   max-width: 346px;
 }
 
-.show {
-  display: block;
-}
+
 
 input, button {
   border-radius: 0 !important;
@@ -469,4 +451,38 @@ input, button {
     font-size: 3.3em;
     line-height: .6em;
     margin-top: 1.8em;
+}
+
+
+
+/* Larger than mobile */
+@media (max-width: 400px) {}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (max-width: 550px) {
+  .head, .hands {
+    display:block;
+    margin: 1rem auto;
+    width:100%;
+    max-width: 100px;
+    height:auto;
+  }
+
+  .hands {
+    display:none;
+    max-width: 173px;
+  }
+}
+
+/* Larger than tablet */
+@media (max-width: 750px) {}
+
+/* Larger than desktop */
+@media (max-width: 1000px) {}
+
+/* Larger than Desktop HD */
+@media (max-width: 1200px) {}
+
+.show {
+  display: block;
 }
