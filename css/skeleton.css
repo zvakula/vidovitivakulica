@@ -472,6 +472,9 @@ input, button {
     display:none;
     max-width: 173px;
   }
+  .weather > span {
+    font-size: 1.3em;
+  }
 }
 
 /* Larger than tablet */
